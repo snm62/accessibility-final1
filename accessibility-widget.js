@@ -2455,6 +2455,9 @@ class AccessibilityWidget {
                 case 'big-white-cursor':
                     this.enableBigWhiteCursor();
                     break;
+                case 'stop-animation':
+                    this.enableStopAnimation();
+                    break;
             }
         } else {
             body.classList.remove(feature);
@@ -2537,6 +2540,9 @@ class AccessibilityWidget {
                     break;
                 case 'big-white-cursor':
                     this.disableBigWhiteCursor();
+                    break;
+                case 'stop-animation':
+                    this.disableStopAnimation();
                     break;
                 case 'adjust-text-colors':
                     this.hideTextColorPicker();
@@ -4193,6 +4199,9 @@ class AccessibilityWidget {
         this.disableBigBlackCursor();
         this.disableBigWhiteCursor();
         
+        // Disable stop animation
+        this.disableStopAnimation();
+        
         // Remove cognitive boxes
         this.removeCognitiveBoxes();
         
@@ -5578,6 +5587,9 @@ class AccessibilityWidget {
         this.disableBigBlackCursor();
         this.disableBigWhiteCursor();
         
+        // Disable stop animation
+        this.disableStopAnimation();
+        
         // Remove cognitive boxes
         this.removeCognitiveBoxes();
         
@@ -5717,6 +5729,31 @@ class AccessibilityWidget {
         document.body.classList.remove('big-white-cursor');
         this.settings['big-white-cursor'] = false;
         this.saveSettings();
+    }
+
+    // Stop Animation Methods
+    enableStopAnimation() {
+        console.log('Accessibility Widget: Stop animation enabled');
+        document.body.classList.add('stop-animation');
+        this.settings['stop-animation'] = true;
+        this.saveSettings();
+        
+        // Stop any JavaScript-based animations (like the slider auto-slide)
+        if (window.slider && window.slider.disableAutoSlide) {
+            window.slider.disableAutoSlide();
+        }
+    }
+
+    disableStopAnimation() {
+        console.log('Accessibility Widget: Stop animation disabled');
+        document.body.classList.remove('stop-animation');
+        this.settings['stop-animation'] = false;
+        this.saveSettings();
+        
+        // Resume JavaScript-based animations (like the slider auto-slide)
+        if (window.slider && window.slider.enableAutoSlide) {
+            window.slider.enableAutoSlide();
+        }
     }
 
     // Text Color Adjustment Methods
